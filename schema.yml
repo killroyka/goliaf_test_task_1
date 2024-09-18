@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Tasks API
+  version: 1.0.0
+  description: Api for tasks
+paths:
+  /api/tasks/:
+    post:
+      description: create new Task
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        200:
+          description: Task was created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    get:
+      description: get all Tasks
+      responses:
+        200:
+          description: all Tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+  /api/tasks/{taskID}:
+    parameters:
+      - name: taskID
+        in: path
+        description: ID of task
+        required: true
+        schema:
+          type: integer
+          format: int64
+    delete:
+      description: Task delete
+      responses:
+        404:
+          description: task not found
+        200:
+          description: Task have been deleted
+
+    put:
+      description: Change Task
+      responses:
+        404:
+          description: Task not found
+        200:
+          description: Task have been changed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    get:
+      description: Get Task by Id
+      responses:
+        200:
+          description: status OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        404:
+          description: Task not found
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        completed:
+          type: boolean
+          default: false
+      required:
+        - title
+
